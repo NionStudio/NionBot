@@ -1,0 +1,10 @@
+{
+  "name": "nionbot-transcript-viewer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Visor de transcripciones de NionBot (función Vercel).",
+  "devDependencies": {
+    "@vercel/node": "^5.1.0",
+    "typescript": "^5.7.2"
+  }
+}

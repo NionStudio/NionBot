@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GuildConfig {
+  guildId String @id
+
+  welcomeEnabled   Boolean @default(false)
+  welcomeChannelId String?
+  welcomeMessage   String  @default("## {e:icon} ¡Bienvenido/a a la comunidad!\n\nNos alegra tenerte por aquí. Eres el miembro número **{count}** {e:user}")
+  welcomeAccentColor Int?
+  welcomeThumbnail   String @default("{user}")
+  welcomeCreationField String @default("{e:creation} **Account creation**・{creation_date}")
+  welcomeInvitedField  String @default("{e:invited} **Invited by**・{invited_by}")
+
+  autoRoleIds String[] @default([])
+
+  dmEnabled Boolean @default(false)
+  dmMessage String  @default("¡Hola! Gracias por unirte a {server}. 👋")
+
+  goodbyeEnabled   Boolean @default(false)
+  goodbyeChannelId String?
+  goodbyeMessage   String  @default("{username} ha abandonado **{server}**. 👋")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("guild_config")
+}
+
+model TicketConfig {
+  guildId String @id
+
+  panelChannelId String?
+  panelMessageId String?
+  panelMessage   String @default("## 🎫 Soporte\n\nElige un motivo en el desplegable para abrir un ticket. El staff te atenderá lo antes posible.")
+
+  dropdownPlaceholder String @default("Elige un motivo para abrir un ticket")
+
+  openMessage String @default("### ¡Hola {user}!\nUn staff te atenderá en breves.")
+  responseTime String @default("15 minutos")
+
+  staffRoleId         String?
+  categoryId          String?
+  transcriptChannelId String?
+  counter             Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ticket_config")
+}
+
+enum TicketFieldStyle {
+  SHORT
+  PARAGRAPH
+}
+
+model TicketOption {
+  id       Int    @id @default(autoincrement())
+  guildId  String
+  position Int    @default(0)
+
+  label       String
+  emoji       String?
+  description String?
+
+  categoryId   String?
+  staffRoleId  String?
+  openMessage  String?
+  responseTime String?
+
+  fields TicketField[]
+
+  createdAt DateTime @default(now())
+
+  @@index([guildId, position])
+  @@map("ticket_option")
+}
+
+model TicketField {
+  id       Int          @id @default(autoincrement())
+  optionId Int
+  option   TicketOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  position Int          @default(0)
+
+  label    String
+  style    TicketFieldStyle @default(SHORT)
+  required Boolean          @default(true)
+
+  @@index([optionId, position])
+  @@map("ticket_field")
+}
+
+enum TicketStatus {
+  OPEN
+  CLOSED
+}
+
+model Ticket {
+  id        Int          @id @default(autoincrement())
+  guildId   String
+  channelId String       @unique
+  openerId  String
+  number    Int
+  status    TicketStatus @default(OPEN)
+  staffRoleId String?
+  claimedById String?
+
+  reminderJobId    String?
+  reminderDeadline DateTime?
+
+  createdAt DateTime  @default(now())
+  closedAt  DateTime?
+
+  @@index([guildId, openerId, status])
+  @@map("ticket")
+}

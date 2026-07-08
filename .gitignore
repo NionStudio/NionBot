@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+*.log
+.pnpm-store/
+.vercel/
+
+# Prisma
+prisma/*.db
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
