@@ -298,12 +298,14 @@ export function buildTranscriptLog(
       buttons.push(
         new ButtonBuilder()
           .setLabel('Enlace directo')
-          .setEmoji('🔗')
+          .setEmoji(EMOJI.speed)
           .setStyle(ButtonStyle.Link)
           .setURL(opts.directUrl),
       );
     }
-    container.addActionRowComponents((row) => row.addComponents(...buttons));
+    container
+      .addSeparatorComponents((s) => s)
+      .addActionRowComponents((row) => row.addComponents(...buttons));
   }
 
   return {

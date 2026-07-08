@@ -14,4 +14,5 @@ export const EMOJI = {
   reopen: '<:abrir:1524529834909372526>',
   trash: '<:trashbin:1524530942956409102>',
   report: '<:report:1524380420299427961>',
+  speed: '<:speed:1524527737832869888>',
 } as const;
