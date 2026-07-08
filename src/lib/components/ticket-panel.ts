@@ -251,7 +251,7 @@ export function buildClaimMessage(staffId: string) {
     components: [
       new ContainerBuilder().addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-          `${EMOJI.claim} <@${staffId}> ha reclamado el ticket!`,
+          `${EMOJI.claim} Ahora serás atendido/a por <@${staffId}>`,
         ),
       ),
     ],
