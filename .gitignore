@@ -8,6 +8,8 @@ dist/
 # Prisma
 prisma/*.db
 
+CLAUDE.md
+
 # Editor
 .vscode/
 .idea/
