@@ -8,18 +8,16 @@ import { welcomeQueue } from './lib/queue/welcome.queue.js';
 import { ticketQueue } from './lib/queue/ticket.queue.js';
 
 const client = new SapphireClient({
-
   baseUserDirectory: fileURLToPath(new URL('.', import.meta.url)),
+  defaultPrefix: '$',
+  loadMessageCommandListeners: true,
   intents: [
     GatewayIntentBits.Guilds,
-
     GatewayIntentBits.GuildMembers,
-
     GatewayIntentBits.GuildInvites,
-
     GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
   ],
-
   partials: [Partials.GuildMember, Partials.User],
   logger: {
     level: env.NODE_ENV === 'development' ? LogLevel.Debug : LogLevel.Info,

@@ -15,4 +15,6 @@ export const EMOJI = {
   trash: '<:trashbin:1524530942956409102>',
   report: '<:report:1524380420299427961>',
   speed: '<:speed:1524527737832869888>',
+  add: '<:add:1524562227951042640>',
+  remove: '<:remove:1524562270917755038>',
 } as const;
